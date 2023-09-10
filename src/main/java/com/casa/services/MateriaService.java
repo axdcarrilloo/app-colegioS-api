@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.casa.feignclient.dtos.MateriaRegistrarDto;
+import com.casa.utils.MensajesProperties;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class MateriaService {
 			return map;
 		} catch (FeignException e) {
 			if(e.status() == Constantes.HTTP_NOENCONTRADO) {
-				map.put(Constantes.MAP_ERROR_NOEXISTENCIA, Constantes.MSG_NOEXISTENCIA);
+				map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
 			} else {
 				map.put("error", "Error");
 			}

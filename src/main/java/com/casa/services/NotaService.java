@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.casa.domain.entities.NotaEntity;
+import com.casa.utils.MensajesProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,12 @@ import com.casa.utils.Constantes;
 public class NotaService {
 	
 	private final Logger log = LoggerFactory.getLogger(NotaService.class);
-	
+
+	@SuppressWarnings("unused")
 	@Autowired
 	private NotaRepository notaRepository;
-		
+
+	@SuppressWarnings("unused")
 	@Autowired
 	private UsuarioService usuarioSvc;
 	
@@ -52,14 +55,13 @@ public class NotaService {
 		log.info("NotaService.class : registrar() -> Registrando Nota...!");
 		Map<String, Object> map = new HashMap<>();
 		if(Boolean.TRUE.equals(validarCamposObligarotiosRegistro(nota))) {
-			map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, Constantes.MSG_CAMPOS_VACIOS);
-			return map;
+			map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, MensajesProperties.MSG_CAMPOS_VACIOS);
 		} else {
 			nota.setFechaRegistro(Constantes.obtenerFechaActual());
 			nota.setFechaModificacion(Constantes.obtenerFechaActual());
 			map.put(Constantes.MAP_RESPONSE, notaRepository.save(NotaMapper.convertirDtoToEntity(nota)).getId());
-			return map;
 		}
+		return map;
 	}
 
 }

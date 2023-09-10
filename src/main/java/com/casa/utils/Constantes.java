@@ -11,9 +11,6 @@ public class Constantes {
 	public static final String MAP_ERROR_SIEXISTENCIA = "errorSiExiste";
 	public static final String MAP_RESPONSE = "response";
 	public static final String MAP_ERROR_NOEXISTENCIA = "errorNoExiste";
-	public static final String MSG_CAMPOS_VACIOS = "Campos vacios, por favor validar";
-	public static final String MSG_SIEXISTENCIA = "Ya se encuentra registrado";
-	public static final String MSG_NOEXISTENCIA = "No se encuentra registrado";
 
 	public static final String TTL_CONSULTA_EXITOSA = "Consulta Exitosa";
 	public static final String TTL_CONSULTA_FALLIDA = "Consulta Fallida";

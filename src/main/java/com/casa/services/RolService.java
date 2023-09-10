@@ -5,6 +5,7 @@ import com.casa.domain.dtos.RolRegistrarDto;
 import com.casa.domain.mappers.RolMapper;
 import com.casa.repositories.RolRepository;
 import com.casa.utils.Constantes;
+import com.casa.utils.MensajesProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class RolService {
     public Map<String, Object> registrar(RolRegistrarDto rol) {
         Map<String, Object> map = new HashMap<>();
         if(validarCamposVacios(rol)) {
-            map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, Constantes.MSG_CAMPOS_VACIOS);
+            map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, MensajesProperties.MSG_CAMPOS_VACIOS);
         } else {
             log.info("RolService.class : registrar() -> Registrando rol...!");
             map.put(Constantes.MAP_RESPONSE, rolRepository.save(RolMapper.convertirDtoAEntity(rol)).getId());

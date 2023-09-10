@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.casa.utils.MensajesProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,11 +87,11 @@ public class UsuarioService {
 		Map<String, Object> map = new HashMap<>();
 		UsuarioEntity usuarioMain = consultarPorId(usuario.getId());
 		if(Boolean.TRUE.equals(validarCamposVaciosModificacion(usuario))) {
-			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, Constantes.MSG_NOEXISTENCIA);
+			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
 			return map;
 		}
 		if(usuarioMain == null) {
-			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, Constantes.MSG_NOEXISTENCIA);
+			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
 		} else {
 			usuarioRepository.modificarTodo(usuarioMain.getId(), usuario.getTipoUsuario(), usuario.getTipoDocumento(), 
 					usuario.getNumeroDocumento(), usuario.getNombres(), usuario.getApellidos(), usuario.getCelular(), usuario.getDireccion(), usuario.getUsuario(), 
@@ -111,7 +112,7 @@ public class UsuarioService {
 			usuarioRepository.eliminacionLogica(id, true);
 			map.put(Constantes.MAP_RESPONSE, id);
 		} else {
-			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, Constantes.MSG_NOEXISTENCIA);
+			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
 		}
 		return map;
 	}
@@ -123,7 +124,7 @@ public class UsuarioService {
 			usuarioRepository.deleteById(id);
 			map.put(Constantes.MAP_RESPONSE, id);
 		} else {
-			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, Constantes.MSG_NOEXISTENCIA);
+			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
 		}
 		return map;
 	}
@@ -154,16 +155,16 @@ public class UsuarioService {
 		log.info("UsuarioService.class : registrarUsuario() -> Registrando usuario...!");
 		Map<String, Object> map = new HashMap<>();
 		if(Boolean.TRUE.equals(validarCamposVaciosRegistro(usuario))) {
-			map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, Constantes.MSG_CAMPOS_VACIOS);
+			map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, MensajesProperties.MSG_CAMPOS_VACIOS);
 			return map;
 		}
 		if(Boolean.TRUE.equals(existenciaPorNumeroDocumento(usuario.getNumeroDocumento()))) {
-			map.put(Constantes.MAP_ERROR_SIEXISTENCIA, Constantes.MSG_SIEXISTENCIA);
+			map.put(Constantes.MAP_ERROR_SIEXISTENCIA, MensajesProperties.MSG_SIEXISTENCIA);
 			return map;
 		}
 		String codigo = codigoSvc.asignarCodigo(usuario.getTipoUsuario());
 		if(codigo == null) {
-			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, Constantes.MSG_NOEXISTENCIA);
+			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
 		}else {
 			usuario.setCodigo(codigo);
 			usuario.setEliminado(false);

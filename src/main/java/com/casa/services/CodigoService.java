@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.casa.domain.entities.CodigoEntity;
 import com.casa.domain.entities.RolEntity;
+import com.casa.utils.MensajesProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class CodigoService {
 			codigoRepository.eliminacionLogica(id, true);
 			map.put(Constantes.MAP_RESPONSE, id);
 		} else {
-			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, Constantes.MSG_NOEXISTENCIA);
+			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
 		}
 		return map;
 	}
@@ -69,7 +70,7 @@ public class CodigoService {
 			codigoRepository.deleteById(id);
 			map.put(Constantes.MAP_RESPONSE, id);
 		} else {
-			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, Constantes.MSG_NOEXISTENCIA);
+			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
 		}
 		return map;
 	}
@@ -142,16 +143,16 @@ public class CodigoService {
 		log.info("CodigoService.class : registrar() -> Registrando codigo...!");
 		Map<String, Object> map = new HashMap<>();
 		if(Boolean.TRUE.equals(validarCamposObligatoriosRegistro(codigoDto))) {
-			map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, Constantes.MSG_CAMPOS_VACIOS);
+			map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, MensajesProperties.MSG_CAMPOS_VACIOS);
 			return map;
 		}
 		RolEntity rol = rolSvc.consultarPorId(codigoDto.getRol().getId());
 		if(rol == null) {
-			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, Constantes.MSG_NOEXISTENCIA);
+			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
 			return map;
 		}
 		if(existenciaPorRol(rol)) {
-			map.put(Constantes.MAP_ERROR_SIEXISTENCIA, Constantes.MSG_SIEXISTENCIA);
+			map.put(Constantes.MAP_ERROR_SIEXISTENCIA, MensajesProperties.MSG_SIEXISTENCIA);
 		}else {
 			codigoDto.setRol(rol);
 			codigoDto.setConsecutivo(1);
@@ -168,11 +169,11 @@ public class CodigoService {
 		Map<String, Object> map = new HashMap<>();
 		CodigoEntity codigoMain = consultarPorId(codigo.getId());
 		if(Boolean.TRUE.equals(validarCamposObligatoriosModificacion(codigo))) {
-			map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, Constantes.MSG_CAMPOS_VACIOS);
+			map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, MensajesProperties.MSG_CAMPOS_VACIOS);
 			return map;
 		}
 		if(codigoMain == null) {
-			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, Constantes.MSG_NOEXISTENCIA);
+			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
 		} else {
 			codigoRepository.modificar(codigo.getId(), codigo.getPrefijo(), codigo.getConsecutivo(), codigo.getDescripcion(), 
 					Constantes.obtenerFechaActual());
