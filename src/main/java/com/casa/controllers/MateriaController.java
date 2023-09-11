@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.casa.feignclient.dtos.MateriaRegistrarDto;
 import com.casa.services.MateriaService;
+import com.casa.utils.MensajesProperties;
 import com.casa.utils.RouteFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,14 +31,14 @@ public class MateriaController {
 		String error = (String)map.get("error");
 		String errorNoExiste = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
 		if(error != null) {
-			return new ResponseEntity<>(new ResponseMainDto(Constantes.TTL_CONSULTA_FALLIDA,
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
 					error), HttpStatus.OK);
 		}
 		if(errorNoExiste != null) {
-			return new ResponseEntity<>(new ResponseMainDto(Constantes.TTL_CONSULTA_FALLIDA,
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
 					errorNoExiste), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(new ResponseMainDto(Constantes.TTL_CONSULTA_EXITOSA,
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_EXITOSA,
 					map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
 		}
 	}
@@ -47,10 +48,10 @@ public class MateriaController {
 		Map<String, Object> map = materiaSvc.consultarPorNombre(nombre);
 		String errorNoExiste = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
 		if(errorNoExiste != null) {
-			return new ResponseEntity<>(new ResponseMainDto(Constantes.TTL_CONSULTA_FALLIDA, 
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
 					errorNoExiste), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(new ResponseMainDto(Constantes.TTL_CONSULTA_EXITOSA, 
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_EXITOSA,
 					map.get(Constantes.MAP_RESPONSE)), HttpStatus.FOUND);
 		}
 	}
@@ -60,10 +61,10 @@ public class MateriaController {
 		Map<String, Object> map = materiaSvc.consultarTodas();
 		String error = (String)map.get("error");
 		if(error != null) {
-			return new ResponseEntity<>(new ResponseMainDto(Constantes.TTL_CONSULTA_FALLIDA, 
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
 					error), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(new ResponseMainDto(Constantes.TTL_CONSULTA_EXITOSA, 
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_EXITOSA,
 					map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
 		}
 	}

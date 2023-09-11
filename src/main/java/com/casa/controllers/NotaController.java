@@ -2,6 +2,7 @@ package com.casa.controllers;
 
 import java.util.Map;
 
+import com.casa.utils.MensajesProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,7 +32,7 @@ public class NotaController {
 	@GetMapping(value = Route.TODAS)
 	public ResponseEntity<ResponseMainDto> consultarTodas() {
 		return new ResponseEntity<>(new ResponseMainDto
-				(Constantes.TTL_CONSULTA_EXITOSA, notaSvc.consultarTodas()), HttpStatus.OK);
+				(MensajesProperties.TTL_CONSULTA_EXITOSA, notaSvc.consultarTodas()), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = Route.REGISTRAR)
@@ -40,10 +41,10 @@ public class NotaController {
 		String errorCamposVacios = (String)map.get(Constantes.MAP_ERROR_CAMPOS_VACIOS);
 		if(errorCamposVacios != null) {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_REGISTRO_FALLIDO, errorCamposVacios), HttpStatus.NOT_FOUND);
+					(MensajesProperties.TTL_REGISTRO_FALLIDO, errorCamposVacios), HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_REGISTRO_EXITOSO, map.get(Constantes.MAP_RESPONSE)), HttpStatus.BAD_REQUEST);
+					(MensajesProperties.TTL_REGISTRO_EXITOSO, map.get(Constantes.MAP_RESPONSE)), HttpStatus.BAD_REQUEST);
 		}
 		
 	}

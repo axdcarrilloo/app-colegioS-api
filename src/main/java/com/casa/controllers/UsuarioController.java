@@ -3,6 +3,7 @@ package com.casa.controllers;
 import java.util.Map;
 
 import com.casa.services.UsuarioService;
+import com.casa.utils.MensajesProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,14 +40,14 @@ public class UsuarioController {
 		String errorNoExiste = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
 		if(errorCamposVacios != null) {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_MODIFICACION_FALLIDA, errorCamposVacios), HttpStatus.BAD_REQUEST);
+					(MensajesProperties.TTL_MODIFICACION_FALLIDA, errorCamposVacios), HttpStatus.BAD_REQUEST);
 		}
 		if(errorNoExiste != null) {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_MODIFICACION_FALLIDA, errorNoExiste), HttpStatus.NOT_FOUND);
+					(MensajesProperties.TTL_MODIFICACION_FALLIDA, errorNoExiste), HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_MODIFICACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.NOT_FOUND);
+					(MensajesProperties.TTL_MODIFICACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -56,10 +57,10 @@ public class UsuarioController {
 		String errorNoExiste = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
 		if(errorNoExiste != null) {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_ELIMINACION_FALLIDA, errorNoExiste), HttpStatus.NOT_FOUND);
+					(MensajesProperties.TTL_ELIMINACION_FALLIDA, errorNoExiste), HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_ELIMINACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
+					(MensajesProperties.TTL_ELIMINACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
 		}
 	}
 	
@@ -69,23 +70,23 @@ public class UsuarioController {
 		String errorNoExiste = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
 		if(errorNoExiste != null) {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_ELIMINACION_FALLIDA, errorNoExiste), HttpStatus.NOT_FOUND);
+					(MensajesProperties.TTL_ELIMINACION_FALLIDA, errorNoExiste), HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_ELIMINACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
+					(MensajesProperties.TTL_ELIMINACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
 		}
 	}
 	
 	@GetMapping(value = Route.TODOS_EXISTENTES)
 	public ResponseEntity<ResponseMainDto> consultarExistentes() {
 		return new ResponseEntity<>(new ResponseMainDto
-				(Constantes.TTL_CONSULTA_EXITOSA, usuarioSvc.consultarExistentes()), HttpStatus.OK);
+				(MensajesProperties.TTL_CONSULTA_EXITOSA, usuarioSvc.consultarExistentes()), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = Route.TODOS)
 	public ResponseEntity<ResponseMainDto> consultarTodos() {
 		return new ResponseEntity<>(new ResponseMainDto
-				(Constantes.TTL_CONSULTA_EXITOSA, usuarioSvc.consultarTodos()), HttpStatus.OK);
+				(MensajesProperties.TTL_CONSULTA_EXITOSA, usuarioSvc.consultarTodos()), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = Route.REGISTRAR)
@@ -97,21 +98,21 @@ public class UsuarioController {
 		String errorNoExiste = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
 		if(errorCamposVacios != null) {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_REGISTRO_FALLIDO, errorCamposVacios), HttpStatus.NOT_FOUND);
+					(MensajesProperties.TTL_REGISTRO_FALLIDO, errorCamposVacios), HttpStatus.NOT_FOUND);
 		}
 		if(errorNoPrefijo != null) {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_REGISTRO_FALLIDO, errorNoPrefijo), HttpStatus.BAD_REQUEST);
+					(MensajesProperties.TTL_REGISTRO_FALLIDO, errorNoPrefijo), HttpStatus.BAD_REQUEST);
 		}
 		if(errorSiExiste != null) {
-			return new ResponseEntity<>(new ResponseMainDto(Constantes.TTL_REGISTRO_FALLIDO, 
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_REGISTRO_FALLIDO,
 					errorSiExiste), HttpStatus.BAD_REQUEST);
 		}
 		if(errorNoExiste != null) {
-			return new ResponseEntity<>(new ResponseMainDto(Constantes.TTL_REGISTRO_FALLIDO,
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_REGISTRO_FALLIDO,
 					errorNoExiste), HttpStatus.BAD_REQUEST);
 		} else {
-			return new ResponseEntity<>(new ResponseMainDto(Constantes.TTL_REGISTRO_EXITOSO, 
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_REGISTRO_EXITOSO,
 					map.get(Constantes.MAP_RESPONSE)), HttpStatus.CREATED);
 		}
 	}

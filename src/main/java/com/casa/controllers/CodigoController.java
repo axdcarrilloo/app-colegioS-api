@@ -3,6 +3,7 @@ package com.casa.controllers;
 import java.util.Map;
 
 import com.casa.services.CodigoService;
+import com.casa.utils.MensajesProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,27 +40,27 @@ public class CodigoController {
 		String errorNoExiste = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
 		if(errorCamposVacios != null) {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_MODIFICACION_FALLIDA, errorCamposVacios), HttpStatus.BAD_REQUEST);
+					(MensajesProperties.TTL_MODIFICACION_FALLIDA, errorCamposVacios), HttpStatus.BAD_REQUEST);
 		}
 		if(errorNoExiste != null) {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_MODIFICACION_FALLIDA, errorNoExiste), HttpStatus.NOT_FOUND);
+					(MensajesProperties.TTL_MODIFICACION_FALLIDA, errorNoExiste), HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_MODIFICACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.NOT_FOUND);
+					(MensajesProperties.TTL_MODIFICACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.NOT_FOUND);
 		}
 	}
 	
 	@GetMapping(value = Route.TODOS_EXISTENTES)
 	public ResponseEntity<ResponseMainDto> consularExistentes() {
 		return new ResponseEntity<>(new ResponseMainDto
-				(Constantes.TTL_CONSULTA_EXITOSA, codigoSvc.consultarExistentes()), HttpStatus.OK);
+				(MensajesProperties.TTL_CONSULTA_EXITOSA, codigoSvc.consultarExistentes()), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = Route.TODOS)
 	public ResponseEntity<ResponseMainDto> consultarTodos() {
 		return new ResponseEntity<>(new ResponseMainDto
-				(Constantes.TTL_CONSULTA_EXITOSA, codigoSvc.consultarTodos()), HttpStatus.OK);
+				(MensajesProperties.TTL_CONSULTA_EXITOSA, codigoSvc.consultarTodos()), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = Route.ELIMINAR)
@@ -69,10 +70,10 @@ public class CodigoController {
 		ResponseEntity<ResponseMainDto> response;
 		if(errorNoExiste != null) {
 			response = new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_ELIMINACION_FALLIDA, errorNoExiste), HttpStatus.NOT_FOUND);
+					(MensajesProperties.TTL_ELIMINACION_FALLIDA, errorNoExiste), HttpStatus.NOT_FOUND);
 		} else {
 			response = new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_ELIMINACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
+					(MensajesProperties.TTL_ELIMINACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
 		}
 		return response;
 	}
@@ -84,10 +85,10 @@ public class CodigoController {
 		ResponseEntity<ResponseMainDto> response;
 		if(errorNoExiste != null) {
 			response = new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_ELIMINACION_FALLIDA, errorNoExiste), HttpStatus.NOT_FOUND);
+					(MensajesProperties.TTL_ELIMINACION_FALLIDA, errorNoExiste), HttpStatus.NOT_FOUND);
 		} else {
 			response = new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_ELIMINACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
+					(MensajesProperties.TTL_ELIMINACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
 		}
 		return response;
 	}
@@ -100,18 +101,18 @@ public class CodigoController {
 		String errorSiExiste = (String)map.get(Constantes.MAP_ERROR_SIEXISTENCIA);
 		if(errorCamposVacios != null) {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_REGISTRO_FALLIDO, errorCamposVacios), HttpStatus.BAD_REQUEST);
+					(MensajesProperties.TTL_REGISTRO_FALLIDO, errorCamposVacios), HttpStatus.BAD_REQUEST);
 		}
 		if(errorNoExiste != null) {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_REGISTRO_FALLIDO, errorNoExiste), HttpStatus.BAD_REQUEST);
+					(MensajesProperties.TTL_REGISTRO_FALLIDO, errorNoExiste), HttpStatus.BAD_REQUEST);
 		}
 		if(errorSiExiste != null) {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_REGISTRO_FALLIDO, errorSiExiste), HttpStatus.BAD_REQUEST);
+					(MensajesProperties.TTL_REGISTRO_FALLIDO, errorSiExiste), HttpStatus.BAD_REQUEST);
 		} else {
 			return new ResponseEntity<>(new ResponseMainDto
-					(Constantes.TTL_REGISTRO_EXITOSO, map.get(Constantes.MAP_RESPONSE)), HttpStatus.CREATED);
+					(MensajesProperties.TTL_REGISTRO_EXITOSO, map.get(Constantes.MAP_RESPONSE)), HttpStatus.CREATED);
 		}
 	}
 
