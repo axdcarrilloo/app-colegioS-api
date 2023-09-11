@@ -10,7 +10,7 @@ public class Constantes {
 	public static final String MAP_ERROR_NOPREFIJO = "errorNoPrefijo";
 	public static final String MAP_ERROR_SIEXISTENCIA = "errorSiExiste";
 	public static final String MAP_ERROR_NOEXISTENCIA = "errorNoExiste";
-	
+
 	public static final String MAP_RESPONSE = "response";
 
 	public static final int HTTP_NOENCONTRADO = 404;
