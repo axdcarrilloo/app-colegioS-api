@@ -30,7 +30,10 @@ public class RolService {
         if(rol == null) {
             return true;
         }
-        return rol.getNombre().isEmpty();
+        if(rol.getCodigo() == null || rol.getCodigo().isEmpty()) {
+            return true;
+        }
+        return rol.getNombre() == null || rol.getNombre().isEmpty();
     }
 
     public RolEntity consultarPorCodigo(String codigo) {
