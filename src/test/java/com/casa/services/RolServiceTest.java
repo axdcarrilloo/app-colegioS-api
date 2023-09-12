@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,6 +50,24 @@ public class RolServiceTest {
         roles.add(rol2);
         roles.add(rol3);
         return roles;
+    }
+
+    @Test
+    void existenciaPorCodigoTestInexistente() {
+        when(rolRepository.findByCodigo("01")).thenReturn(null);
+
+        Boolean validar = rolSvc.existenciaPorCodigo("01");
+
+        assertFalse(validar);
+    }
+
+    @Test
+    void existenciaPorCodigoTestExistente() {
+        when(rolRepository.findByCodigo("01")).thenReturn(obtenerRol());
+
+        Boolean validar = rolSvc.existenciaPorCodigo("01");
+
+        assertTrue(validar);
     }
 
     @Test
@@ -88,10 +107,21 @@ public class RolServiceTest {
     }
 
     @Test
-    void registrarTestCamposVacios() {
-        Long idRol = (Long)rolSvc.registrar(new RolRegistrarDto("", null)).get(Constantes.MAP_RESPONSE);
+    void registrarTestDuplicidad() {
+        when(rolRepository.findByCodigo("01")).thenReturn(obtenerRol());
 
-        assertNull(idRol);
+        Map<String, Object> map = rolSvc.registrar(new RolRegistrarDto("01", "Estudiante"));
+
+        assertNull(map.get(Constantes.MAP_RESPONSE));
+        assertFalse(map.isEmpty());
+    }
+
+    @Test
+    void registrarTestCamposVacios() {
+        Map<String, Object> map = rolSvc.registrar(new RolRegistrarDto("", null));
+
+        assertNull(map.get(Constantes.MAP_RESPONSE));
+        assertFalse(map.isEmpty());
     }
 
     @Test
