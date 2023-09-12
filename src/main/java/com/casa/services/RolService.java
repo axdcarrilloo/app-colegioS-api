@@ -36,6 +36,11 @@ public class RolService {
         return rol.getNombre() == null || rol.getNombre().isEmpty();
     }
 
+    public Boolean existenciaPorCodigo(String codigo) {
+        log.info("RolService.class : existenciaPorCodigo() -> Validando existencia por codigo...!");
+        return consultarPorCodigo(codigo) != null;
+    }
+
     public RolEntity consultarPorCodigo(String codigo) {
         log.info("RolService.class : consultarPorCodigo() -> Consultando por codigo...!");
         return rolRepository.findByCodigo(codigo);
@@ -50,6 +55,10 @@ public class RolService {
         Map<String, Object> map = new HashMap<>();
         if(validarCamposVacios(rol)) {
             map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, MensajesProperties.MSG_CAMPOS_VACIOS);
+            return map;
+        }
+        if(existenciaPorCodigo(rol.getCodigo())) {
+            map.put(Constantes.MAP_ERROR_SIEXISTENCIA, MensajesProperties.MSG_SIEXISTENCIA);
         } else {
             log.info("RolService.class : registrar() -> Registrando rol...!");
             map.put(Constantes.MAP_RESPONSE, rolRepository.save(RolMapper.convertirDtoAEntity(rol)).getId());
