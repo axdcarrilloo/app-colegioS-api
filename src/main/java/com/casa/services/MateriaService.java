@@ -6,6 +6,7 @@ import java.util.Map;
 import com.casa.feignclient.dtos.MateriaRegistrarDto;
 import com.casa.utils.MensajesProperties;
 import feign.FeignException;
+import feign.RetryableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,11 @@ public class MateriaService {
 			log.info("MateriaService.class - registrar() -> Registrando materias desde Colegios...!");
 			map.put(Constantes.MAP_RESPONSE, materiaFeign.registrar(materia).getRespuesta());
 			return map;
+		} catch (RetryableException r) {
+			map.put(Constantes.MAP_ERRORR_SERVER_HORARIOS, "Los servidores del Software Horario estan abajo");
+			return map;
 		} catch (FeignException e) {
-			if(e.status() == Constantes.HTTP_NOENCONTRADO) {
-				map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
-			} else {
-				map.put("error", "Error");
-			}
+			map.put("error", "Error");
 			return map;
 		}
 	}
@@ -60,6 +60,9 @@ public class MateriaService {
 		Map<String, Object> map = new HashMap<>();
 		try {
 			map.put(Constantes.MAP_RESPONSE, materiaFeign.consultarTodas().getRespuesta());
+			return map;
+		} catch (RetryableException r) {
+			map.put(Constantes.MAP_ERRORR_SERVER_HORARIOS, "Los servidores del Software Horario estan abajo");
 			return map;
 		} catch (FeignException e) {
 			map.put("error", "Error");

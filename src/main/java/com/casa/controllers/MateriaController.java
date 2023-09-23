@@ -29,14 +29,14 @@ public class MateriaController {
 	public ResponseEntity<ResponseMainDto> registrar(@RequestBody MateriaRegistrarDto materia) {
 		Map<String, Object> map = materiaSvc.registrar(materia);
 		String error = (String)map.get("error");
-		String errorNoExiste = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
+		String errorServeHorarios = (String)map.get(Constantes.MAP_ERRORR_SERVER_HORARIOS);
+		if(errorServeHorarios != null) {
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
+					errorServeHorarios), HttpStatus.OK);
+		}
 		if(error != null) {
 			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
 					error), HttpStatus.OK);
-		}
-		if(errorNoExiste != null) {
-			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
-					errorNoExiste), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_EXITOSA,
 					map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
@@ -59,7 +59,12 @@ public class MateriaController {
 	@GetMapping(value = Route.TODAS)
 	public ResponseEntity<ResponseMainDto> consultarTodas() {
 		Map<String, Object> map = materiaSvc.consultarTodas();
+		String errorHorarios = (String)map.get(Constantes.MAP_ERRORR_SERVER_HORARIOS);
 		String error = (String)map.get("error");
+		if(errorHorarios != null) {
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
+					errorHorarios), HttpStatus.GATEWAY_TIMEOUT);
+		}
 		if(error != null) {
 			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
 					error), HttpStatus.OK);

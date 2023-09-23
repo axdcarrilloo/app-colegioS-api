@@ -12,6 +12,7 @@ public class Constantes {
 	public static final String MAP_ERROR_NOEXISTENCIA = "errorNoExiste";
 
 	public static final String MAP_RESPONSE = "response";
+	public static final String MAP_ERRORR_SERVER_HORARIOS = "errorServerHorarios";
 
 	public static final int HTTP_NOENCONTRADO = 404;
 
