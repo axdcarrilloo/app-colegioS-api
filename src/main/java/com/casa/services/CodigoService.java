@@ -122,6 +122,11 @@ public class CodigoService {
 		Optional<CodigoEntity> codigoOpt = codigoRepository.findById(id);
 		return codigoOpt.orElse(null);
 	}
+
+	public Boolean existenciaPorPrefijo(String prefijo) {
+		log.info("CodigoService.class : existenciaPorPrefijo() -> Consultando existencia por prefijo...!");
+		return consultarPorPrefijo(prefijo)  != null;
+	}
 	
 	public CodigoEntity consultarPorPrefijo(String prefijo) {
 		log.info("CodigoService.class : consultarCodigoPorPrefijo() -> Consultando codigo por prefijo...!");
@@ -140,10 +145,13 @@ public class CodigoService {
 	}
 
 	public Map<String, Object> registrar(CodigoRegistrarDto codigoDto) {
-		log.info("CodigoService.class : registrar() -> Registrando codigo...!");
 		Map<String, Object> map = new HashMap<>();
 		if(Boolean.TRUE.equals(validarCamposObligatoriosRegistro(codigoDto))) {
 			map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, MensajesProperties.MSG_CAMPOS_VACIOS);
+			return map;
+		}
+		if(existenciaPorPrefijo(codigoDto.getPrefijo())) {
+			map.put(Constantes.MAP_ERROR_SIEXISTENCIA, MensajesProperties.MSG_SIEXISTENCIA);
 			return map;
 		}
 		RolEntity rol = rolSvc.consultarPorId(codigoDto.getRol().getId());
@@ -154,6 +162,7 @@ public class CodigoService {
 		if(existenciaPorRol(rol)) {
 			map.put(Constantes.MAP_ERROR_SIEXISTENCIA, MensajesProperties.MSG_SIEXISTENCIA);
 		}else {
+			log.info("CodigoService.class : registrar() -> Registrando codigo...!");
 			codigoDto.setRol(rol);
 			codigoDto.setConsecutivo(1);
 			codigoDto.setEliminado(false);

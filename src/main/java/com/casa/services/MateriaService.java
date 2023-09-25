@@ -23,10 +23,13 @@ public class MateriaService {
 	@SuppressWarnings("unused")
 	@Autowired
 	private MateriaFeign materiaFeign;
+	@Autowired
+	private CodigoService codigoSvc;
 
 	public Map<String, Object> registrar(MateriaRegistrarDto materia) {
 		Map<String, Object> map = new HashMap<>();
 		try {
+			materia.setCodigo(codigoSvc.asignarCodigo(Constantes.CODIGO_ROL_ASIGNATURAS));
 			log.info("MateriaService.class - registrar() -> Registrando materias desde Colegios...!");
 			map.put(Constantes.MAP_RESPONSE, materiaFeign.registrar(materia).getRespuesta());
 			return map;

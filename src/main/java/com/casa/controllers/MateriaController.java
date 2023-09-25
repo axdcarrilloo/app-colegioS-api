@@ -38,7 +38,7 @@ public class MateriaController {
 			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
 					error), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_EXITOSA,
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_REGISTRO_EXITOSO,
 					map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
 		}
 	}

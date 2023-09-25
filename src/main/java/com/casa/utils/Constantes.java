@@ -6,6 +6,8 @@ public class Constantes {
 	
 	private Constantes() {}
 
+	public static final String CODIGO_ROL_ASIGNATURAS = "06";
+
 	public static final String MAP_ERROR_CAMPOS_VACIOS = "errorCamposVacios";
 	public static final String MAP_ERROR_NOPREFIJO = "errorNoPrefijo";
 	public static final String MAP_ERROR_SIEXISTENCIA = "errorSiExiste";

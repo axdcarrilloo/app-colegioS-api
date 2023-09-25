@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 @Getter
 public class MateriaRegistrarDto {
 
+    private String codigo;
+
     private String nombre;
 
     private LocalDateTime fechaRegistro;
