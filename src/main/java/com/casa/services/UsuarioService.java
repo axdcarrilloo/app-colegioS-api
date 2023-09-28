@@ -165,7 +165,11 @@ public class UsuarioService {
 		String codigo = codigoSvc.asignarCodigo(usuario.getTipoUsuario());
 		if(codigo == null) {
 			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
-		}else {
+			return map;
+		}
+		if(usuario.getTipoUsuario() == "02") {
+
+		} else {
 			usuario.setCodigo(codigo);
 			usuario.setEliminado(false);
 			usuario.setFechaRegistro(Constantes.obtenerFechaActual());
