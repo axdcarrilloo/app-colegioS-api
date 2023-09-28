@@ -28,6 +28,10 @@ public class UsuarioRegistrarDto {
 	private String celular;
 	
 	private String direccion;
+
+	private Integer edad;
+
+	private String email;
 	
 	private String usuario;
 	

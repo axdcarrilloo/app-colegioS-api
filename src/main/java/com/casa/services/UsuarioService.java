@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.casa.feignclient.ProfesorFeign;
+import com.casa.feignclient.dtos.ProfesorRegistrarDto;
 import com.casa.utils.MensajesProperties;
+import feign.FeignException;
+import feign.RetryableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +36,10 @@ public class UsuarioService {
 	@Autowired
 	private CodigoService codigoSvc;
 
+	@SuppressWarnings("unused")
+	@Autowired
+	private ProfesorFeign profesorFeign;
+
 	private Boolean validarCamposVaciosModificacion(UsuarioModificarDto usuario) {
 		log.info("UsuarioService.class : validarCamposVacios() -> Validando campos de registro...!");
 		if(usuario.getId() == null) {
@@ -57,25 +65,50 @@ public class UsuarioService {
 	
 	private Boolean validarCamposVaciosRegistro(UsuarioRegistrarDto usuario) {
 		log.info("UsuarioService.class : validarCamposVacios() -> Validando campos de registro...!");
-		if(usuario.getTipoUsuario() == null) {
+		if(usuario.getTipoUsuario() == null || usuario.getTipoUsuario().isEmpty()) {
 			return true;
 		}
-		if(usuario.getTipoDocumento() == null) {
+		if(usuario.getTipoDocumento() == null || usuario.getTipoDocumento().isEmpty()) {
 			return true;
 		}
-		if(usuario.getNumeroDocumento() == null) {
+		if(usuario.getNumeroDocumento() == null || usuario.getNumeroDocumento().isEmpty()) {
 			return true;
 		}
-		if(usuario.getApellidos() == null) {
+		if(usuario.getNombres() == null || usuario.getNombres().isEmpty()) {
 			return true;
 		}
-		if(usuario.getCelular() == null) {
+		if(usuario.getApellidos() == null || usuario.getApellidos().isEmpty()) {
 			return true;
 		}
-		if(usuario.getUsuario() == null) {
+		if(usuario.getCelular() == null || usuario.getCelular().isEmpty()) {
 			return true;
 		}
-		return usuario.getContrasenna() == null;
+		if(usuario.getEdad() == null || usuario.getEdad() <= 0) {
+			return true;
+		}
+		if(usuario.getEmail() == null || usuario.getEmail().isEmpty()) {
+			return true;
+		}
+		if(usuario.getUsuario() == null || usuario.getUsuario().isEmpty()) {
+			return true;
+		}
+		return usuario.getContrasenna() == null || usuario.getContrasenna().isEmpty();
+	}
+
+	private Map<String, Object> registrarProfesorHorario(ProfesorRegistrarDto profesor) {
+		Map<String, Object> map = new HashMap<>();
+		try {
+			profesor.setCodigo(codigoSvc.asignarCodigo(Constantes.CODIGO_ROL_PROFESOR));
+			log.info("UsuarioService.class : registrarProfesorHorario() -> Registrando profesor desde Colegios...!");
+			map.put(Constantes.MAP_RESPONSE, profesorFeign.registrar(profesor).getRespuesta());
+			return map;
+		} catch (RetryableException r) {
+			map.put(Constantes.MAP_ERRORR_SERVER_HORARIOS, "Los servidores del Software Horario estan abajo");
+			return map;
+		} catch (FeignException e) {
+			map.put("error", "Error");
+			return map;
+		}
 	}
 
 	public Boolean existenciaPorNumeroDocumento(String numeroDocumento) {
@@ -152,7 +185,6 @@ public class UsuarioService {
 	}
 
 	public Map<String, Object> registrar(UsuarioRegistrarDto usuario) {
-		log.info("UsuarioService.class : registrarUsuario() -> Registrando usuario...!");
 		Map<String, Object> map = new HashMap<>();
 		if(Boolean.TRUE.equals(validarCamposVaciosRegistro(usuario))) {
 			map.put(Constantes.MAP_ERROR_CAMPOS_VACIOS, MensajesProperties.MSG_CAMPOS_VACIOS);
@@ -167,13 +199,14 @@ public class UsuarioService {
 			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
 			return map;
 		}
-		if(usuario.getTipoUsuario() == "02") {
-
+		usuario.setCodigo(codigo);
+		usuario.setEliminado(false);
+		usuario.setFechaRegistro(Constantes.obtenerFechaActual());
+		usuario.setFechaModificacion(Constantes.obtenerFechaActual());
+		if(usuario.getTipoUsuario().equals(Constantes.CODIGO_ROL_PROFESOR)) {
+			map = registrarProfesorHorario(UsuarioMapper.converirUsuarioDtoAProfesorDto(usuario));
 		} else {
-			usuario.setCodigo(codigo);
-			usuario.setEliminado(false);
-			usuario.setFechaRegistro(Constantes.obtenerFechaActual());
-			usuario.setFechaModificacion(Constantes.obtenerFechaActual());
+			log.info("UsuarioService.class : registrarUsuario() -> Registrando usuario...!");
 			map.put(Constantes.MAP_RESPONSE, usuarioRepository.save(UsuarioMapper.convertirDeDtoToEntity(usuario)).getId());
 		}
 		return map;

@@ -32,7 +32,7 @@ public class MateriaController {
 		String errorServeHorarios = (String)map.get(Constantes.MAP_ERRORR_SERVER_HORARIOS);
 		if(errorServeHorarios != null) {
 			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
-					errorServeHorarios), HttpStatus.OK);
+					errorServeHorarios), HttpStatus.GATEWAY_TIMEOUT);
 		}
 		if(error != null) {
 			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,

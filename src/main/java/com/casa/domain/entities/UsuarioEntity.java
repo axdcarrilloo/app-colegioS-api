@@ -44,9 +44,15 @@ public class UsuarioEntity implements Serializable {
 	
 	@Column(nullable = false, length = 20)
 	private String celular;
-	
+
 	@Column(length = 200)
 	private String direccion;
+
+	@Column(length = 2)
+	private Integer edad;
+
+	@Column(nullable = false, length = 150, unique = true)
+	private String email;
 	
 	@Column(nullable = false, length = 20, unique = true)
 	private String usuario;

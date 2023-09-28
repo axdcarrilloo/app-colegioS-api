@@ -96,6 +96,7 @@ public class UsuarioController {
 		String errorNoPrefijo = (String)map.get(Constantes.MAP_ERROR_NOPREFIJO);
 		String errorSiExiste = (String)map.get(Constantes.MAP_ERROR_SIEXISTENCIA);
 		String errorNoExiste = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
+		String errorServerHorarios = (String)map.get(Constantes.MAP_ERRORR_SERVER_HORARIOS);
 		if(errorCamposVacios != null) {
 			return new ResponseEntity<>(new ResponseMainDto
 					(MensajesProperties.TTL_REGISTRO_FALLIDO, errorCamposVacios), HttpStatus.NOT_FOUND);
@@ -111,6 +112,10 @@ public class UsuarioController {
 		if(errorNoExiste != null) {
 			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_REGISTRO_FALLIDO,
 					errorNoExiste), HttpStatus.BAD_REQUEST);
+		}
+		if(errorServerHorarios != null) {
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_REGISTRO_FALLIDO,
+					errorServerHorarios), HttpStatus.GATEWAY_TIMEOUT);
 		} else {
 			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_REGISTRO_EXITOSO,
 					map.get(Constantes.MAP_RESPONSE)), HttpStatus.CREATED);
