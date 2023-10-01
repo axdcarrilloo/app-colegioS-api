@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -14,5 +16,4 @@ public class RespuestaPrincipalDto {
 	private String mensaje;
 	
 	private Object respuesta;
-
 }

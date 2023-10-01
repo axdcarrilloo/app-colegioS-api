@@ -42,20 +42,20 @@ public class MateriaController {
 					map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
 		}
 	}
-	
+
 	@GetMapping(value = RouteFeign.CONSULTARPOR_NOMBRE)
 	public ResponseEntity<ResponseMainDto> consultarPorNombre(@PathVariable String nombre) {
 		Map<String, Object> map = materiaSvc.consultarPorNombre(nombre);
 		String errorNoExiste = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
 		if(errorNoExiste != null) {
 			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
-					errorNoExiste), HttpStatus.OK);
+					errorNoExiste), HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_EXITOSA,
-					map.get(Constantes.MAP_RESPONSE)), HttpStatus.FOUND);
+					map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
 		}
 	}
-	
+
 	@GetMapping(value = Route.TODAS)
 	public ResponseEntity<ResponseMainDto> consultarTodas() {
 		Map<String, Object> map = materiaSvc.consultarTodas();

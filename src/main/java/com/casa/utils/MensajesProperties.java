@@ -17,7 +17,12 @@ public class MensajesProperties {
     public static String TTL_ELIMINACION_FALLIDA;
     public static String TTL_MODIFICACION_EXITOSA;
     public static String TTL_MODIFICACION_FALLIDA;
+    public static String MSG_SERVIDOR_HORARIO_ABAJO;
 
+    @Value("${msg.servidor.horario.abajo}")
+    public void setMSG_SERVIDOR_HORARIO_ABAJO(String mensaje) {
+        MSG_SERVIDOR_HORARIO_ABAJO = mensaje;
+    }
     @Value("${ttl.modificacion.fallida}")
     public void setTTL_MODIFICACION_FALLIDA(String mensaje) {
         TTL_MODIFICACION_FALLIDA = mensaje;
@@ -50,7 +55,7 @@ public class MensajesProperties {
     public void setTTL_CONSULTA_EXITOSA(String mensaje) {
         TTL_CONSULTA_EXITOSA = mensaje;
     }
-    @Value("${msg.si.existencia}")
+    @Value("${msg.no.existencia}")
     public void setMSG_NOEXISTENCIA(String mensaje) {
         MSG_NOEXISTENCIA = mensaje;
     }

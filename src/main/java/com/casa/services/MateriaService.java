@@ -34,7 +34,7 @@ public class MateriaService {
 			map.put(Constantes.MAP_RESPONSE, materiaFeign.registrar(materia).getRespuesta());
 			return map;
 		} catch (RetryableException r) {
-			map.put(Constantes.MAP_ERRORR_SERVER_HORARIOS, "Los servidores del Software Horario estan abajo");
+			map.put(Constantes.MAP_ERRORR_SERVER_HORARIOS, MensajesProperties.MSG_SERVIDOR_HORARIO_ABAJO);
 			return map;
 		} catch (FeignException e) {
 			map.put("error", "Error");
@@ -43,14 +43,17 @@ public class MateriaService {
 	}
 
 	public Map<String, Object> consultarPorNombre(String nombre) {
-		log.info("MateriaService.class - consultarTodas() -> Consultando en horarios todas las Materias...!");
 		Map<String, Object> map = new HashMap<>();
 		try {
+			log.info("MateriaService.class - consultarTodas() -> Consultando en horarios Materia por nombre...!");
 			map.put(Constantes.MAP_RESPONSE, materiaFeign.consultarPorNombre(nombre).getRespuesta());
+			return map;
+		}  catch (RetryableException r) {
+			map.put(Constantes.MAP_ERRORR_SERVER_HORARIOS, MensajesProperties.MSG_SERVIDOR_HORARIO_ABAJO);
 			return map;
 		} catch (FeignException e) {
 			if(e.status() == Constantes.HTTP_NOENCONTRADO) {
-				map.put("errorNoExiste", "No se encuentra");
+				map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
 			} else {
 				map.put("errorNoExiste", "Error");
 			}
@@ -65,7 +68,7 @@ public class MateriaService {
 			map.put(Constantes.MAP_RESPONSE, materiaFeign.consultarTodas().getRespuesta());
 			return map;
 		} catch (RetryableException r) {
-			map.put(Constantes.MAP_ERRORR_SERVER_HORARIOS, "Los servidores del Software Horario estan abajo");
+			map.put(Constantes.MAP_ERRORR_SERVER_HORARIOS, MensajesProperties.MSG_SERVIDOR_HORARIO_ABAJO);
 			return map;
 		} catch (FeignException e) {
 			map.put("error", "Error");
