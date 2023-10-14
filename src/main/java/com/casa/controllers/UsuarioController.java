@@ -32,6 +32,25 @@ public class UsuarioController {
 	@SuppressWarnings("unused")
 	@Autowired
 	private UsuarioService usuarioSvc;
+
+	@GetMapping(value = Route.CONSULTAR_POR_NOMBRE)
+	public ResponseEntity<ResponseMainDto> consultarEstudiantePorNombre(@PathVariable String nombres) {
+		Map<String, Object> map = usuarioSvc.consultarEstudiantePorNombre(nombres);
+		String errorNoExiste = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
+		if(errorNoExiste != null) {
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_FALLIDA,
+					errorNoExiste), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(new ResponseMainDto(MensajesProperties.TTL_CONSULTA_EXITOSA,
+					map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
+		}
+	}
+
+	@GetMapping(value = Route.TODOS_ESTUDIANTES)
+	public ResponseEntity<ResponseMainDto> consultarTodosEstudiantes() {
+		return new ResponseEntity<>(new ResponseMainDto
+				(MensajesProperties.TTL_CONSULTA_EXITOSA, usuarioSvc.consultarTodosEstudiantes()), HttpStatus.OK);
+	}
 	
 	@PutMapping(value = Route.MODIFICAR)
 	public ResponseEntity<ResponseMainDto> modificarTodo(@RequestBody UsuarioModificarDto usuario) {

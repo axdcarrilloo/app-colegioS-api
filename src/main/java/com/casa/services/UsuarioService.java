@@ -84,7 +84,25 @@ public class UsuarioService {
 		return usuario.getContrasenna() == null || usuario.getContrasenna().isEmpty();
 	}
 
+	public Map<String, Object> consultarEstudiantePorNombre(String nombres) {
+		log.info("UsuarioService.class : consultarEstudiantePorNombre() -> Consultando estudiante por Nombre...!");
+		Map<String, Object> map = new HashMap<>();
+		Optional<UsuarioEntity> optional = usuarioRepository.findByNombresAndTipoUsuario(nombres, Constantes.TIPO_USUARIO_ESTUDIANTE);
+		if(optional.isPresent()) {
+			map.put(Constantes.MAP_RESPONSE, optional.get());
+		} else {
+			map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
+		}
+		return map;
+	}
+
+	public List<UsuarioEntity> consultarTodosEstudiantes() {
+		log.info("UsuarioService.class : consultarTodosEstudiantes() -> Consultando todos los estudiantes...!");
+		return usuarioRepository.findByTipoUsuario(Constantes.TIPO_USUARIO_ESTUDIANTE);
+	}
+
 	public Boolean existenciaPorNumeroDocumento(String numeroDocumento) {
+		log.info("UsuarioService.class : existenciaPorNumeroDocumento() -> Validando existencia por numero de documento...!");
 		return consultarPorNumeroDocumento(numeroDocumento) != null;
 	}
 	
@@ -108,6 +126,7 @@ public class UsuarioService {
 	}
 	
 	public Boolean existenciaPorId(Long id) {
+		log.info("UsuarioService.class : existenciaPorId() -> Validando existencia por Id...!");
 		return consultarPorId(id) != null;
 	}
 	

@@ -11,6 +11,8 @@ public class Route {
 	public static final String ROL = "/Rol";
 	
 //	Crud URLs
+public static final String CONSULTAR_POR_NOMBRE = "/ConsultarEstudiantePorNombre/{nombres}";
+	public static final String TODOS_ESTUDIANTES = "/TodosEstudiantes";
 	public static final String REGISTRAR = "/Registrar";
 	public static final String TODOS = "/Todos";
 	public static final String TODAS = "/Todas";
