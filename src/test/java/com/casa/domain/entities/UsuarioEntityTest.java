@@ -17,7 +17,7 @@ public class UsuarioEntityTest {
 	void validarCaracteristicas() {
 		LocalDateTime fechaCreacion = LocalDateTime.of(2009, 11, 15, 10, 20, 5);
 		UsuarioEntity usuario = new UsuarioEntity(8L, "PRF004", "02", "01", "1045121734", "Ronald", "Teran",
-				"399517511", "Ciudad#45", "rote02", "Rote123", false, fechaCreacion, fechaCreacion);
+				"399517511", "Ciudad#45", 36, "rote@yahoo.es", "rote02", "Rote123", false, fechaCreacion, fechaCreacion);
 		
 		assertNotNull(usuario);
 		assertEquals(8L, usuario.getId());

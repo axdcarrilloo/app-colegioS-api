@@ -35,14 +35,14 @@ public class UsuarioServiceTest {
 	private UsuarioEntity obtenerUsuario() {
 		LocalDateTime fechaCreacion = LocalDateTime.of(2009, 11, 15, 10, 20, 5);
 		return new UsuarioEntity(14L, "EST004", "01", "02", "1045121734", "Ronald", "Teran",
-				"399517511", "Ciudad#45", "rote02", "Rote123", false, fechaCreacion, fechaCreacion);
+				"399517511", "Ciudad#45", 36, "rote@yahoo.es", "rote02", "Rote123", false, fechaCreacion, fechaCreacion);
 	}
 	
 	@Test
 	void registrarTestExito() {
 		LocalDateTime fechaCreacion = LocalDateTime.of(2009, 11, 15, 10, 20, 5);
 		UsuarioRegistrarDto usuarioDto = new UsuarioRegistrarDto(null, "01", "02", "1045121734", "Ronald", "Teran",
-				"399517511", "Ciudad#45", "rote02", "Rote123", false, fechaCreacion, fechaCreacion);
+				"399517511", "Ciudad#45", 36, "rote@yahoo.es", "rote02", "Rote123", false, fechaCreacion, fechaCreacion);
 		
 		Optional<UsuarioEntity> optional = Optional.empty();
 		when(usuarioRepository.findByNumeroDocumento("1045121734")).thenReturn(optional);
