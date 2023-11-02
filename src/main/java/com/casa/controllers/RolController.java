@@ -23,6 +23,19 @@ public class RolController {
     @Autowired
     private RolService rolSVC;
 
+    @GetMapping(value = Route.CONSULTAR_POR_ID)
+    public ResponseEntity<ResponseMainDto> consultarPorId(@PathVariable Long id) {
+        Map<String, Object> map = rolSVC.consultarPorIdParaController(id);
+        String errorNoExistencia = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
+        if(errorNoExistencia != null) {
+            return new ResponseEntity<>(new ResponseMainDto
+                    (MensajesProperties.TTL_CONSULTA_FALLIDA, errorNoExistencia), HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(new ResponseMainDto
+                    (MensajesProperties.TTL_CONSULTA_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
+        }
+    }
+
     @GetMapping(value = Route.TODOS)
     public ResponseEntity<ResponseMainDto> consultarTodos() {
         return new ResponseEntity<>(new ResponseMainDto

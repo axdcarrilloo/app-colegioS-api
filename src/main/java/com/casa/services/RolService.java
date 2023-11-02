@@ -36,6 +36,17 @@ public class RolService {
         return rol.getNombre() == null || rol.getNombre().isEmpty();
     }
 
+    public Map<String, Object> consultarPorIdParaController(Long id) {
+        Map<String, Object> map = new HashMap<>();
+        RolEntity rol = consultarPorId(id);
+        if(rol != null) {
+            map.put(Constantes.MAP_RESPONSE, rol);
+        } else {
+            map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
+        }
+        return map;
+    }
+
     public Boolean existenciaPorCodigo(String codigo) {
         log.info("RolService.class : existenciaPorCodigo() -> Validando existencia por codigo...!");
         return consultarPorCodigo(codigo) != null;
