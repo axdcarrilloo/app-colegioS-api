@@ -46,9 +46,14 @@ public class RolController {
     public ResponseEntity<ResponseMainDto> registrar(@RequestBody RolRegistrarDto rol) {
         Map<String, Object> map = rolSVC.registrar(rol);
         String errorCamposVacios = (String)map.get(Constantes.MAP_ERROR_CAMPOS_VACIOS);
+        String errorSiExiste = (String)map.get(Constantes.MAP_ERROR_SIEXISTENCIA);
         if(errorCamposVacios != null) {
             return new ResponseEntity<>(new ResponseMainDto
                     (MensajesProperties.TTL_REGISTRO_FALLIDO, errorCamposVacios), HttpStatus.BAD_REQUEST);
+        }
+        if(errorSiExiste != null) {
+            return new ResponseEntity<>(new ResponseMainDto
+                    (MensajesProperties.TTL_REGISTRO_FALLIDO, errorSiExiste), HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(new ResponseMainDto
                     (MensajesProperties.TTL_REGISTRO_EXITOSO, map.get(Constantes.MAP_RESPONSE)), HttpStatus.CREATED);
