@@ -36,6 +36,18 @@ public class RolService {
         return rol.getNombre() == null || rol.getNombre().isEmpty();
     }
 
+    public Map<String, Object> eliminarPorId(Long id) {
+        log.info("RolService.class : eliminarPorId() -> Eliminando por Id...!");
+        Map<String, Object> map = new HashMap<>();
+        if(existenciaPorId(id)) {
+            map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
+        } else {
+            rolRepository.deleteById(id);
+            map.put(Constantes.MAP_RESPONSE, id);
+        }
+        return map;
+    }
+
     public Map<String, Object> consultarPorIdParaController(Long id) {
         Map<String, Object> map = new HashMap<>();
         RolEntity rol = consultarPorId(id);
@@ -75,6 +87,11 @@ public class RolService {
             map.put(Constantes.MAP_RESPONSE, rolRepository.save(RolMapper.convertirDtoAEntity(rol)).getId());
         }
         return map;
+    }
+
+    public Boolean existenciaPorId(Long id) {
+        log.info("RolService.class : existenciaPorId() -> Validando existencia por Id...!");
+        return consultarPorId(id) != null;
     }
 
     public RolEntity consultarPorId(Long id) {

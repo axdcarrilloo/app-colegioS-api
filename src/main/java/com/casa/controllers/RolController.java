@@ -23,6 +23,19 @@ public class RolController {
     @Autowired
     private RolService rolSVC;
 
+    @DeleteMapping(value = Route.ELIMINAR)
+    public ResponseEntity<ResponseMainDto> eliminarPorId(@PathVariable Long id) {
+        Map<String, Object> map = rolSVC.eliminarPorId(id);
+        String errorNoExistencia = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
+        if(errorNoExistencia != null) {
+            return new ResponseEntity<>(new ResponseMainDto
+                    (MensajesProperties.TTL_ELIMINACION_FALLIDA, errorNoExistencia), HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(new ResponseMainDto
+                    (MensajesProperties.TTL_ELIMINACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
+        }
+    }
+
     @GetMapping(value = Route.CONSULTAR_POR_ID)
     public ResponseEntity<ResponseMainDto> consultarPorId(@PathVariable Long id) {
         Map<String, Object> map = rolSVC.consultarPorIdParaController(id);
