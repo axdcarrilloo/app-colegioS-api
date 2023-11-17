@@ -25,6 +25,9 @@ public class RolService {
     @Autowired
     private RolRepository rolRepository;
 
+    @Autowired
+    private CodigoService codigoSvc;
+
     private Boolean validarCamposVacios(RolRegistrarDto rol) {
         log.info("RolService.class : validarCamposVacios() -> Validando campos vacios...!");
         if(rol == null) {
@@ -37,11 +40,16 @@ public class RolService {
     }
 
     public Map<String, Object> eliminarPorId(Long id) {
-        log.info("RolService.class : eliminarPorId() -> Eliminando por Id...!");
         Map<String, Object> map = new HashMap<>();
-        if(existenciaPorId(id)) {
+        RolEntity rol = consultarPorId(id);
+        if(rol == null) {
             map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
+            return map;
+        }
+        if(codigoSvc.existenciaPorRol(rol)) {
+            map.put(Constantes.MAP_ERROR_SIEXISTENCIA, MensajesProperties.MSG_SIEXISTENCIA);
         } else {
+            log.info("RolService.class : eliminarPorId() -> Eliminando por Id...!");
             rolRepository.deleteById(id);
             map.put(Constantes.MAP_RESPONSE, id);
         }
@@ -89,8 +97,8 @@ public class RolService {
         return map;
     }
 
-    public Boolean existenciaPorId(Long id) {
-        log.info("RolService.class : existenciaPorId() -> Validando existencia por Id...!");
+    public Boolean validarExistenciaPorId(Long id) {
+        log.info("RolService.class : validarExistenciaPorId() -> Validando existencia por Id...!");
         return consultarPorId(id) != null;
     }
 
