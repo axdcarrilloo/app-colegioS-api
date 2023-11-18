@@ -18,7 +18,12 @@ public class MensajesProperties {
     public static String TTL_MODIFICACION_EXITOSA;
     public static String TTL_MODIFICACION_FALLIDA;
     public static String MSG_SERVIDOR_HORARIO_ABAJO;
+    public static String MSG_DEPENDECIA_LLAVEFORANEA;
 
+    @Value("${msg.dependencia.llaveforanea}")
+    public void setMSG_DEPENDECIA_LLAVEFORANEA(String mensaje) {
+        MSG_DEPENDECIA_LLAVEFORANEA = mensaje;
+    }
     @Value("${msg.servidor.horario.abajo}")
     public void setMSG_SERVIDOR_HORARIO_ABAJO(String mensaje) {
         MSG_SERVIDOR_HORARIO_ABAJO = mensaje;

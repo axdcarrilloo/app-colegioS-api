@@ -9,6 +9,7 @@ import com.casa.utils.MensajesProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,14 +20,11 @@ import java.util.Optional;
 @Service
 public class RolService {
 
-    private final Logger log = LoggerFactory.getLogger(CodigoService.class);
+    private final Logger log = LoggerFactory.getLogger(RolService.class);
 
     @SuppressWarnings("unused")
     @Autowired
     private RolRepository rolRepository;
-
-    @Autowired
-    private CodigoService codigoSvc;
 
     private Boolean validarCamposVacios(RolRegistrarDto rol) {
         log.info("RolService.class : validarCamposVacios() -> Validando campos vacios...!");
@@ -41,17 +39,19 @@ public class RolService {
 
     public Map<String, Object> eliminarPorId(Long id) {
         Map<String, Object> map = new HashMap<>();
-        RolEntity rol = consultarPorId(id);
-        if(rol == null) {
+        if(!validarExistenciaPorId(id)) {
             map.put(Constantes.MAP_ERROR_NOEXISTENCIA, MensajesProperties.MSG_NOEXISTENCIA);
-            return map;
-        }
-        if(codigoSvc.existenciaPorRol(rol)) {
-            map.put(Constantes.MAP_ERROR_SIEXISTENCIA, MensajesProperties.MSG_SIEXISTENCIA);
         } else {
-            log.info("RolService.class : eliminarPorId() -> Eliminando por Id...!");
-            rolRepository.deleteById(id);
-            map.put(Constantes.MAP_RESPONSE, id);
+            try {
+                log.info("RolService.class : eliminarPorId() -> Eliminando por Id...!");
+                rolRepository.deleteById(id);
+                map.put(Constantes.MAP_RESPONSE, id);
+            } catch (DataIntegrityViolationException errorLlavesForaneas) {
+                map.put(Constantes.MAP_ERROR_SIEXISTENCIA, MensajesProperties.MSG_DEPENDECIA_LLAVEFORANEA);
+            } catch (Exception e) {
+                map.put("error", "Error");
+                log.error(e.toString());
+            }
         }
         return map;
     }

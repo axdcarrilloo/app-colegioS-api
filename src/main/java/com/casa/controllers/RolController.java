@@ -28,6 +28,7 @@ public class RolController {
         Map<String, Object> map = rolSVC.eliminarPorId(id);
         String errorNoExistencia = (String)map.get(Constantes.MAP_ERROR_NOEXISTENCIA);
         String errorSiExistencia = (String)map.get(Constantes.MAP_ERROR_SIEXISTENCIA);
+        String error = (String)map.get("error");
         if(errorNoExistencia != null) {
             return new ResponseEntity<>(new ResponseMainDto
                     (MensajesProperties.TTL_ELIMINACION_FALLIDA, errorNoExistencia), HttpStatus.NO_CONTENT);
@@ -35,6 +36,10 @@ public class RolController {
         if(errorSiExistencia != null ) {
             return new ResponseEntity<>(new ResponseMainDto
                     (MensajesProperties.TTL_ELIMINACION_FALLIDA, errorSiExistencia), HttpStatus.BAD_REQUEST);
+        }
+        if(error != null) {
+            return new ResponseEntity<>(new ResponseMainDto
+                    (MensajesProperties.TTL_ELIMINACION_FALLIDA, error), HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(new ResponseMainDto
                     (MensajesProperties.TTL_ELIMINACION_EXITOSA, map.get(Constantes.MAP_RESPONSE)), HttpStatus.OK);
